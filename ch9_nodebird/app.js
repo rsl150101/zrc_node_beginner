@@ -5,11 +5,14 @@ import morgan from "morgan";
 import path from "path";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
+import db from "./models";
+
 dotenv.config();
 
 import pageRouter from "./routes/page.routes";
 
 const app = express();
+const { sequelize } = db;
 
 app.set("port", process.env.PORT || 8001);
 app.set("view engine", "html");
@@ -17,6 +20,15 @@ nunjucks.configure("views", {
   express: app,
   watch: true,
 });
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("Connect DB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
