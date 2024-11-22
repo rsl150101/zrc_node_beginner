@@ -4,19 +4,20 @@ import {
   renderMain,
   renderProfile,
 } from "../controllers/page.controller";
+import { isLoggedIn, isNotLoggedIn } from "../middlewares";
 
 const router = express.Router();
 
-router.use((_, res, next) => {
-  res.locals.user = null;
+router.use((req, res, next) => {
+  res.locals.user = req.user;
   res.locals.followerCount = 0;
   res.locals.followingCount = 0;
   res.locals.followingIdList = [];
   next();
 });
 
-router.get("/profile", renderProfile);
-router.get("/join", renderJoin);
+router.get("/profile", isLoggedIn, renderProfile);
+router.get("/join", isNotLoggedIn, renderJoin);
 router.get("/", renderMain);
 
 export default router;

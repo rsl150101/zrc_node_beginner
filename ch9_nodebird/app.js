@@ -6,10 +6,15 @@ import path from "path";
 import nunjucks from "nunjucks";
 import dotenv from "dotenv";
 import db from "./models";
+import passport from "passport";
+import passportConfig from "./passport";
 
 dotenv.config();
+passportConfig();
 
+//- router
 import pageRouter from "./routes/page.routes";
+import authRouter from "./routes/auth.routes";
 
 const app = express();
 const { sequelize } = db;
@@ -46,8 +51,11 @@ app.use(
     },
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/", pageRouter);
+app.use("/auth", authRouter);
 
 //- Handle 404
 app.use((req, res, next) => {
