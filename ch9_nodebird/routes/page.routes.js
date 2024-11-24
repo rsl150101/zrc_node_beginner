@@ -4,7 +4,7 @@ import {
   renderMain,
   renderProfile,
 } from "../controllers/page.controller";
-import { isLoggedIn, isNotLoggedIn } from "../middlewares";
+import { isLoggedIn, isNotLoggedIn } from "../middlewares/auth";
 
 const router = express.Router();
 
