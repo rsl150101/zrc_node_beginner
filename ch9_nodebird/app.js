@@ -15,6 +15,7 @@ passportConfig();
 //- router
 import pageRouter from "./routes/page.routes";
 import authRouter from "./routes/auth.routes";
+import postRouter from "./routes/post.routes";
 
 const app = express();
 const { sequelize } = db;
@@ -37,6 +38,7 @@ sequelize
 
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/img", express.static(path.join(__dirname, "uploads")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -56,6 +58,7 @@ app.use(passport.session());
 
 app.use("/", pageRouter);
 app.use("/auth", authRouter);
+app.use("/post", postRouter);
 
 //- Handle 404
 app.use((req, res, next) => {
