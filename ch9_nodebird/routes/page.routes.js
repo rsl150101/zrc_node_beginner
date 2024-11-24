@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  renderHashtag,
   renderJoin,
   renderMain,
   renderProfile,
@@ -19,5 +20,6 @@ router.use((req, res, next) => {
 router.get("/profile", isLoggedIn, renderProfile);
 router.get("/join", isNotLoggedIn, renderJoin);
 router.get("/", renderMain);
+router.get("/hashtag", renderHashtag);
 
 export default router;
