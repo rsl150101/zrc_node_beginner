@@ -13,6 +13,8 @@ const passportConfig = () => {
       .then((user) => done(null, user))
       .catch((err) => done(err));
   });
+
+  local();
 };
 
 export default passportConfig;

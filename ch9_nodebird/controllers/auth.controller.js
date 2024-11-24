@@ -20,5 +20,28 @@ export const join = async (req, res, next) => {
     next(error);
   }
 };
-export const login = () => {};
-export const logout = () => {};
+
+export const login = (req, res, next) => {
+  passport.authenticate("local", (authError, user, info) => {
+    if (authError) {
+      console.error(authError);
+      return next(authError);
+    }
+    if (!user) {
+      return res.redirect(`/?loginError=${info.message}`);
+    }
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        console.error(loginError);
+        return next(loginError);
+      }
+      return res.redirect("/");
+    });
+  })(req, res, next);
+};
+
+export const logout = (req, res, next) => {
+  req.logout(() => {
+    res.redirect("/");
+  });
+};
