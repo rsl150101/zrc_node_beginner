@@ -15,6 +15,7 @@ const passportConfig = () => {
   });
 
   local();
+  kakao();
 };
 
 export default passportConfig;

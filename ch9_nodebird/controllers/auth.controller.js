@@ -21,6 +21,7 @@ export const join = async (req, res, next) => {
   }
 };
 
+//- local login
 export const login = (req, res, next) => {
   passport.authenticate("local", (authError, user, info) => {
     if (authError) {
