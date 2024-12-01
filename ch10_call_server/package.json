@@ -1,0 +1,28 @@
+{
+  "name": "ch10_call_server",
+  "version": "0.0.1",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "keywords": [],
+  "author": "rsl150101",
+  "license": "MIT",
+  "description": "nodebird call server",
+  "dependencies": {
+    "axios": "^1.7.8",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "morgan": "^1.10.0",
+    "nunjucks": "^3.2.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/node": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
+    "nodemon": "^3.1.7"
+  }
+}
