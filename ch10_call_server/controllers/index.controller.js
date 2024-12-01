@@ -52,8 +52,6 @@ export const test = async (req, res, next) => {
 
 export const getMyPosts = async (req, res, next) => {
   try {
-    console.log(req);
-
     const result = await reissueToken(req, "/posts/my");
     res.json(result.data);
   } catch (error) {
