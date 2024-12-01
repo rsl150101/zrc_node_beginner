@@ -4,10 +4,14 @@ import User from "../models/user";
 
 export const createToken = async (req, res, next) => {
   try {
+    const { clientSecret } = req.body;
+
     const domain = await Domain.findOne({
       where: { clientSecret },
       include: [{ model: User, attributes: ["id", "nickname"] }],
     });
+    console.log("test2");
+
     if (!domain) {
       return res.status(401).json({
         code: 401,
