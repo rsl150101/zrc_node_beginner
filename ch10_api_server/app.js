@@ -15,6 +15,7 @@ passportConfig();
 //- router
 import indexRouter from "./routes/index.routes";
 import authRouter from "./routes/auth.routes";
+import v1Router from "./routes/v1.routes";
 
 const app = express();
 const { sequelize } = db;
@@ -56,6 +57,7 @@ app.use(passport.session());
 
 app.use("/", indexRouter);
 app.use("/auth", authRouter);
+app.use("/v1", v1Router);
 
 //- Handle 404
 app.use((req, res, next) => {
