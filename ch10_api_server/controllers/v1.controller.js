@@ -1,6 +1,8 @@
-import Domain from "../models/domain";
 import jwt from "jsonwebtoken";
+import Domain from "../models/domain";
 import User from "../models/user";
+import Post from "../models/post";
+import Hashtag from "../models/hashtag";
 
 export const createToken = async (req, res, next) => {
   try {
@@ -10,7 +12,6 @@ export const createToken = async (req, res, next) => {
       where: { clientSecret },
       include: [{ model: User, attributes: ["id", "nickname"] }],
     });
-    console.log("test2");
 
     if (!domain) {
       return res.status(401).json({
@@ -45,4 +46,49 @@ export const createToken = async (req, res, next) => {
 
 export const tokenTest = (req, res, next) => {
   res.json(res.locals.decoded);
+};
+
+export const getMyPosts = (req, res) => {
+  Post.findAll({ where: { userId: res.locals.decoded.id } })
+    .then((posts) => {
+      res.json({ code: 200, payload: posts });
+    })
+    .catch((error) => {
+      console.error(error);
+      return res.status(500).json({
+        code: 500,
+        message: "Server error",
+      });
+    });
+};
+
+export const getPostsByHashtag = async (req, res) => {
+  try {
+    const hashtag = await Hashtag.findOne({
+      where: { title: req.params.title },
+    });
+    if (!hashtag) {
+      return res.status(404).json({
+        code: 404,
+        message: "No search result",
+      });
+    }
+    const posts = await hashtag.getPosts();
+    if (posts.length === 0) {
+      return res.status(404).json({
+        code: 404,
+        message: "No posts",
+      });
+    }
+    return res.json({
+      code: 200,
+      payload: posts,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      code: 500,
+      message: "Server error",
+    });
+  }
 };
