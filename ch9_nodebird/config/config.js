@@ -9,10 +9,10 @@ const development = {
   dialect: "mysql",
 };
 const test = {
-  username: "test",
-  password: null,
-  database: "database_test",
-  host: "127.0.0.1",
+  username: process.env.MYSQL_USERNAME,
+  password: process.env.MYSQL_PASSWORD,
+  database: process.env.MYSQL_DATABASE_TEST,
+  host: process.env.MYSQL_HOST,
   dialect: "mysql",
 };
 const production = {

@@ -77,6 +77,4 @@ app.use((err, req, res, next) => {
   res.render("error");
 });
 
-app.listen(app.get("port"), () => {
-  console.log(`Listening on http://localhost:${app.get("port")}`);
-});
+export default app;
