@@ -7,5 +7,20 @@
   </head>
   <body>
     <div>Press F12, check console tab and network tab</div>
+    <script>
+      const webSocket = new WebSocket(`ws://${window.location.host}`);
+
+      const handleOpenWs = () => {
+        console.log("Connect websocket and server : Sucess");
+      };
+
+      const handleServerMsg = (message) => {
+        console.log(message.data);
+        webSocket.send("Send message client to server");
+      };
+
+      webSocket.addEventListener("open", handleOpenWs);
+      webSocket.addEventListener("message", handleServerMsg);
+    </script>
   </body>
 </html>
