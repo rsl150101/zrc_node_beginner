@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WS beginner</title>
+  </head>
+  <body>
+    <div>Press F12, check console tab and network tab</div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+
+      const handleOpenWs = () => {
+        console.log("Connect websocket and server : Sucess");
+      };
+
+      const handleServerMsg = (message) => {
+        console.log(message);
+        socket.emit("reply", "Send message client to server");
+      };
+
+      socket.on("news", handleServerMsg);
+    </script>
+  </body>
+</html>
