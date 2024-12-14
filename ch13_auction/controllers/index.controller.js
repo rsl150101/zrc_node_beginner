@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Good } = require("../models");
+const { Good, Auction, User } = require("../models");
 
 exports.renderMain = async (req, res, next) => {
   try {
@@ -38,6 +38,74 @@ exports.createGood = async (req, res, next) => {
       price,
     });
     res.redirect("/");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.renderAuction = async (req, res, next) => {
+  try {
+    const [good, auction] = await Promise.all([
+      Good.findOne({
+        where: { id: req.params.id },
+        include: {
+          model: User,
+          as: "Owner",
+        },
+      }),
+      Auction.findAll({
+        where: { GoodId: req.params.id },
+        include: { model: User },
+        order: [["bid", "ASC"]],
+      }),
+    ]);
+    res.render("auction", {
+      title: `${good.name} - NodeAuction`,
+      good,
+      auction,
+    });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+exports.bid = async (req, res, next) => {
+  try {
+    const { bid, msg } = req.body;
+    const good = await Good.findOne({
+      where: { id: req.params.id },
+      include: { model: Auction },
+      order: [[{ model: Auction }, "bid", "DESC"]],
+    });
+    if (!good) {
+      return res.status(404).send("Not exist good");
+    }
+    if (good.price >= bid) {
+      return res
+        .status(403)
+        .send("You must bid higher than the starting price");
+    }
+    if (new Date(good.createdAt).valueOf() + 24 * 60 * 60 * 1000 < new Date()) {
+      return res.status(403).send("Auction has already ended");
+    }
+    if (good.Auctions[0]?.bid >= bid) {
+      return res.status(403).send("You must bid higher than your previous bid");
+    }
+
+    const result = await Auction.create({
+      bid,
+      msg,
+      UserId: req.user.id,
+      GoodId: req.params.id,
+    });
+    req.app.get("io").to(req.params.id).emit("bid", {
+      bid: result.bid,
+      msg: result.msg,
+      nick: req.user.nick,
+    });
+    return res.send("Ok");
   } catch (error) {
     console.error(error);
     next(error);

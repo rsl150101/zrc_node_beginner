@@ -6,6 +6,8 @@ const {
   renderJoin,
   renderGood,
   createGood,
+  renderAuction,
+  bid,
 } = require("../controllers/index.controller");
 
 const router = express.Router();
@@ -19,5 +21,7 @@ router.get("/", renderMain);
 router.get("/join", isNotLoggedIn, renderJoin);
 router.get("/good", isLoggedIn, renderGood);
 router.post("/good", isLoggedIn, imgUpload.single("img"), createGood);
+router.get("/good/:id", isLoggedIn, renderAuction);
+router.post("/good/:id/bid", isLoggedIn, bid);
 
 module.exports = router;
