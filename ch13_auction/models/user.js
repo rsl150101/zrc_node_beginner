@@ -6,7 +6,7 @@ class User extends Sequelize.Model {
       {
         email: {
           type: Sequelize.STRING(40),
-          allowNull: true,
+          allowNull: false,
           unique: true,
         },
         nick: {
@@ -17,23 +17,18 @@ class User extends Sequelize.Model {
           type: Sequelize.STRING(100),
           allowNull: true,
         },
-        provider: {
-          type: Sequelize.ENUM("local", "kakao"),
+        money: {
+          type: Sequelize.INTEGER,
           allowNull: false,
-          defaultValue: "local",
-        },
-        snsId: {
-          type: Sequelize.STRING(30),
-          allowNull: true,
+          defaultValue: 0,
         },
       },
       {
         sequelize,
         timestamps: true,
-        underscored: false,
+        paranoid: true,
         modelName: "User",
         tableName: "users",
-        paranoid: true,
         charset: "utf8",
         collate: "utf8_general_ci",
       }
