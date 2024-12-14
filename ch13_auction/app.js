@@ -8,14 +8,15 @@ require("dotenv").config();
 const { sequelize } = require("./models");
 const passport = require("passport");
 const passportConfig = require("./passport");
-
-passportConfig();
+const checkAuction = require("./checkAuction");
 
 //- router
 const indexRouter = require("./routes/index.routes");
 const authRouter = require("./routes/auth.routes");
 
 const app = express();
+passportConfig();
+checkAuction();
 
 app.set("port", process.env.PORT || 8010);
 app.set("view engine", "html");
