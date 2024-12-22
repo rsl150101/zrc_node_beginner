@@ -10,6 +10,7 @@ require("dotenv").config();
 const { sequelize } = require("./models");
 const passport = require("passport");
 const passportConfig = require("./passport");
+const logger = require("./logger");
 
 passportConfig();
 
@@ -79,6 +80,8 @@ app.use("/user", userRouter);
 app.use((req, res, next) => {
   const error = new Error(`${req.method} ${req.url} Not found router`);
   error.status = 404;
+  logger.info("hello");
+  logger.error("error.message");
   next(error);
 });
 
