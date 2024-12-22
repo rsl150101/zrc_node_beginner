@@ -11,8 +11,21 @@ const { sequelize } = require("./models");
 const passport = require("passport");
 const passportConfig = require("./passport");
 const logger = require("./logger");
+const redis = require("redis");
+const { RedisStore } = require("connect-redis");
 
 passportConfig();
+
+const redisClient = redis.createClient({
+  username: "default",
+  password: process.env.REDIS_PASSWORD,
+  socket: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+  },
+});
+
+redisClient.connect().catch(console.error);
 
 //- router
 const pageRouter = require("./routes/page.routes");
@@ -29,6 +42,7 @@ const sessionOption = {
     httpOnly: true,
     secure: false,
   },
+  store: new RedisStore({ client: redisClient }),
 };
 
 app.set("port", process.env.PORT || 8001);
