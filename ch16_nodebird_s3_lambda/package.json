@@ -1,0 +1,41 @@
+{
+  "name": "ch16_nodebird_s3_lambda",
+  "version": "0.0.1",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production PORT=8080 pm2 start server.js",
+    "dev": "nodemon"
+  },
+  "keywords": [],
+  "author": "rsl150101",
+  "license": "MIT",
+  "description": "Deploy nodebird",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.717.0",
+    "bcrypt": "^5.1.1",
+    "connect-redis": "^8.0.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "hpp": "^0.2.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-s3": "^3.0.1",
+    "mysql2": "^3.11.4",
+    "nunjucks": "^3.2.4",
+    "passport": "^0.7.0",
+    "passport-kakao": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "pm2": "^5.4.3",
+    "redis": "^4.7.0",
+    "redis-cli": "^2.1.2",
+    "sequelize": "^6.37.5",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7",
+    "sequelize-cli": "^6.6.2"
+  }
+}
