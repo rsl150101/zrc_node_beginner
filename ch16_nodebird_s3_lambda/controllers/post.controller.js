@@ -2,7 +2,10 @@ const Hashtag = require("../models/hashtag");
 const Post = require("../models/post");
 
 exports.afterUploadImage = (req, res) => {
-  res.json({ url: req.file.location });
+  const originalUrl = req.file.location;
+  const url = originalUrl.replace(/\/original\//, "/thumb/");
+
+  res.json({ url, originalUrl });
 };
 
 exports.uploadPost = async (req, res, next) => {
